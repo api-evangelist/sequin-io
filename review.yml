@@ -1,0 +1,112 @@
+aid: sequin-io
+name: Sequin
+review:
+  question: Does Sequin expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-01'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Sequin's own public HTTP surface (the
+    Management API and the Sequin Stream pull API) is request/response REST over
+    HTTPS - there is no server-push transport (WebSocket or SSE) on Sequin's own
+    API to model. Sequin's streaming behavior is delivered by writing change
+    events into external destinations (Kafka, SQS, SNS, Kinesis, Redis, NATS,
+    RabbitMQ, etc.) or by clients polling the Sequin Stream /receive endpoint;
+    those destinations carry their own protocols and are out of scope for a
+    Sequin AsyncAPI document.
+findings:
+  summary: |
+    Sequin does not publish a documented public WebSocket API. Sequin is a
+    Postgres change data capture (CDC) engine. It is configured declaratively
+    via a sequin.yaml file and programmatically via a REST Management API
+    (base https://api.sequinstream.com/api on Cloud, or http://localhost:7376/api
+    self-hosted), authenticated with a Bearer token. The Management API is
+    pure request/response REST over HTTPS. Sequin delivers Postgres changes to
+    external sinks (Kafka, SQS, SNS, Kinesis, Redis, NATS, RabbitMQ,
+    Elasticsearch, Typesense, GCP Pub/Sub, Azure Event Hubs, webhooks) or via
+    the Sequin Stream sink, which is consumed with an HTTP pull loop
+    (GET /receive, POST /ack, POST /nack) - not a WebSocket. No realtime,
+    bidirectional, or streaming WebSocket (ws:// or wss://) endpoint is
+    documented on Sequin's own API.
+  openSource: |
+    The core Sequin CDC engine is open source (MIT) and self-hostable via
+    Docker (github.com/sequinstream/sequin). A managed Sequin Cloud offering
+    also exists. Much of a Sequin deployment is configured declaratively
+    through sequin.yaml (databases, sinks, transforms, backfills); the
+    Management API upserts the same resources programmatically.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.sequinstream.com/api
+      documented: true
+      note: Management API and Sequin Stream pull API. Self-hosted base is http(s)://your-host:7376/api.
+    - protocol: HTTP Pull
+      scheme: https
+      documented: true
+      note: Sequin Stream sink consumed via GET /receive plus POST /ack and POST /nack. Client-initiated polling, not server push.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: Webhook sinks POST change events to a configured HTTP endpoint. Server-to-endpoint HTTP, not WebSocket.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in Sequin's Management API or sink reference as of the review date.
+  endpointsConfirmedRest:
+    - GET    https://api.sequinstream.com/api/postgres_databases
+    - POST   https://api.sequinstream.com/api/postgres_databases
+    - GET    https://api.sequinstream.com/api/postgres_databases/{id_or_name}
+    - PATCH  https://api.sequinstream.com/api/postgres_databases/{id_or_name}
+    - DELETE https://api.sequinstream.com/api/postgres_databases/{id_or_name}
+    - POST   https://api.sequinstream.com/api/postgres_databases/{id_or_name}/test-connection
+    - POST   https://api.sequinstream.com/api/postgres_databases/{id_or_name}/refresh-tables
+    - GET    https://api.sequinstream.com/api/sinks
+    - POST   https://api.sequinstream.com/api/sinks
+    - GET    https://api.sequinstream.com/api/sinks/{id_or_name}
+    - PATCH  https://api.sequinstream.com/api/sinks/{id_or_name}
+    - DELETE https://api.sequinstream.com/api/sinks/{id_or_name}
+    - GET    https://api.sequinstream.com/api/destinations/http_endpoints
+    - POST   https://api.sequinstream.com/api/destinations/http_endpoints
+    - GET    https://api.sequinstream.com/api/destinations/http_endpoints/{id_or_name}
+    - PATCH  https://api.sequinstream.com/api/destinations/http_endpoints/{id_or_name}
+    - DELETE https://api.sequinstream.com/api/destinations/http_endpoints/{id_or_name}
+    - GET    https://api.sequinstream.com/api/sinks/{sink_id_or_name}/backfills
+    - POST   https://api.sequinstream.com/api/sinks/{sink_id_or_name}/backfills
+    - GET    https://api.sequinstream.com/api/sinks/{sink_id_or_name}/backfills/{backfill_id}
+    - PATCH  https://api.sequinstream.com/api/sinks/{sink_id_or_name}/backfills/{backfill_id}
+    - DELETE https://api.sequinstream.com/api/sinks/{sink_id_or_name}/backfills/{backfill_id}
+    - GET    https://api.sequinstream.com/api/http_pull_consumers/{consumer_name}/receive
+    - POST   https://api.sequinstream.com/api/http_pull_consumers/{consumer_name}/ack
+    - POST   https://api.sequinstream.com/api/http_pull_consumers/{consumer_name}/nack
+sources:
+  - url: https://sequinstream.com/docs/management-api/introduction
+    type: Documentation
+    note: Management API base URLs and Bearer auth; all REST. No WebSocket mentioned.
+  - url: https://sequinstream.com/docs/management-api/sink-consumers/list
+    type: APIReference
+    note: Sink consumer CRUD under /api/sinks.
+  - url: https://sequinstream.com/docs/management-api/postgres_databases/list
+    type: APIReference
+    note: Postgres database CRUD plus test-connection and refresh-tables.
+  - url: https://sequinstream.com/docs/management-api/http-endpoints/get
+    type: APIReference
+    note: HTTP endpoint CRUD under /api/destinations/http_endpoints.
+  - url: https://sequinstream.com/docs/management-api/backfills/create
+    type: APIReference
+    note: Backfills nested under a sink at /api/sinks/{sink}/backfills.
+  - url: https://sequinstream.com/docs/reference/sinks/sequin-stream
+    type: Documentation
+    note: Sequin Stream pull consumption via /receive, /ack, /nack. HTTP polling, not WebSocket.
+  - url: https://github.com/sequinstream/sequin
+    type: SourceCode
+    note: Open-source (MIT) Postgres CDC engine, self-hostable via Docker.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists, and Sequin's own public API is
+    request/response REST (Management API) plus an HTTP pull consumption loop
+    (Sequin Stream). No AsyncAPI document was created because there is no
+    server-push transport on Sequin's own API to model; the streaming happens
+    inside external destination systems that carry their own protocols.

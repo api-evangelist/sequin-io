@@ -1,0 +1,279 @@
+{
+  "info": {
+    "name": "Sequin Management API",
+    "description": "Programmatic configuration and operation of a Sequin Postgres change data capture (CDC) deployment. Sequin is open source and self-hostable (github.com/sequinstream/sequin) and also runs as Sequin Cloud. Base URL: https://api.sequinstream.com/api (Cloud) or http://localhost:7376/api (self-hosted). All requests require a Bearer token.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{bearerToken}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.sequinstream.com/api", "type": "string" },
+    { "key": "bearerToken", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Postgres Databases",
+      "item": [
+        {
+          "name": "List Postgres database connections",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/postgres_databases", "host": ["{{baseUrl}}"], "path": ["postgres_databases"] },
+            "description": "Lists all Postgres database connections in your account."
+          }
+        },
+        {
+          "name": "Create a Postgres database connection",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"my-db\",\n  \"hostname\": \"localhost\",\n  \"port\": 5432,\n  \"database\": \"postgres\",\n  \"username\": \"postgres\",\n  \"password\": \"\"\n}" },
+            "url": { "raw": "{{baseUrl}}/postgres_databases", "host": ["{{baseUrl}}"], "path": ["postgres_databases"] },
+            "description": "Creates a new Postgres database connection for Sequin to replicate from."
+          }
+        },
+        {
+          "name": "Retrieve a Postgres database connection",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/postgres_databases/:id_or_name", "host": ["{{baseUrl}}"], "path": ["postgres_databases", ":id_or_name"], "variable": [{ "key": "id_or_name", "value": "" }] },
+            "description": "Retrieves a Postgres database connection by ID or name."
+          }
+        },
+        {
+          "name": "Update a Postgres database connection",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/postgres_databases/:id_or_name", "host": ["{{baseUrl}}"], "path": ["postgres_databases", ":id_or_name"], "variable": [{ "key": "id_or_name", "value": "" }] },
+            "description": "Updates an existing Postgres database connection."
+          }
+        },
+        {
+          "name": "Delete a Postgres database connection",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/postgres_databases/:id_or_name", "host": ["{{baseUrl}}"], "path": ["postgres_databases", ":id_or_name"], "variable": [{ "key": "id_or_name", "value": "" }] },
+            "description": "Deletes a Postgres database connection."
+          }
+        },
+        {
+          "name": "Test a Postgres database connection",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/postgres_databases/:id_or_name/test-connection", "host": ["{{baseUrl}}"], "path": ["postgres_databases", ":id_or_name", "test-connection"], "variable": [{ "key": "id_or_name", "value": "" }] },
+            "description": "Tests connectivity and replication permissions for a database connection."
+          }
+        },
+        {
+          "name": "Refresh table cache",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/postgres_databases/:id_or_name/refresh-tables", "host": ["{{baseUrl}}"], "path": ["postgres_databases", ":id_or_name", "refresh-tables"], "variable": [{ "key": "id_or_name", "value": "" }] },
+            "description": "Refreshes Sequin's cached view of the database's tables and columns."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sink Consumers",
+      "item": [
+        {
+          "name": "List sink consumers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/sinks", "host": ["{{baseUrl}}"], "path": ["sinks"] },
+            "description": "Lists all sink consumers (destinations for Postgres changes)."
+          }
+        },
+        {
+          "name": "Create a sink consumer",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"orders-to-kafka\",\n  \"database\": \"my-db\",\n  \"table\": \"public.orders\",\n  \"destination\": {\n    \"type\": \"kafka\"\n  }\n}" },
+            "url": { "raw": "{{baseUrl}}/sinks", "host": ["{{baseUrl}}"], "path": ["sinks"] },
+            "description": "Creates a new sink consumer that streams Postgres changes to a destination."
+          }
+        },
+        {
+          "name": "Get a sink consumer",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/sinks/:id_or_name", "host": ["{{baseUrl}}"], "path": ["sinks", ":id_or_name"], "variable": [{ "key": "id_or_name", "value": "" }] },
+            "description": "Retrieves a sink consumer by ID or name."
+          }
+        },
+        {
+          "name": "Update a sink consumer",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/sinks/:id_or_name", "host": ["{{baseUrl}}"], "path": ["sinks", ":id_or_name"], "variable": [{ "key": "id_or_name", "value": "" }] },
+            "description": "Updates an existing sink consumer."
+          }
+        },
+        {
+          "name": "Delete a sink consumer",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/sinks/:id_or_name", "host": ["{{baseUrl}}"], "path": ["sinks", ":id_or_name"], "variable": [{ "key": "id_or_name", "value": "" }] },
+            "description": "Deletes a sink consumer."
+          }
+        }
+      ]
+    },
+    {
+      "name": "HTTP Endpoints",
+      "item": [
+        {
+          "name": "List HTTP endpoints",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/destinations/http_endpoints", "host": ["{{baseUrl}}"], "path": ["destinations", "http_endpoints"] },
+            "description": "Lists all reusable HTTP endpoint destinations used by webhook sinks."
+          }
+        },
+        {
+          "name": "Create an HTTP endpoint",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"my-webhook\",\n  \"url\": \"https://example.com/webhook\"\n}" },
+            "url": { "raw": "{{baseUrl}}/destinations/http_endpoints", "host": ["{{baseUrl}}"], "path": ["destinations", "http_endpoints"] },
+            "description": "Creates a reusable HTTP endpoint destination."
+          }
+        },
+        {
+          "name": "Get an HTTP endpoint",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/destinations/http_endpoints/:id_or_name", "host": ["{{baseUrl}}"], "path": ["destinations", "http_endpoints", ":id_or_name"], "variable": [{ "key": "id_or_name", "value": "" }] },
+            "description": "Retrieves an HTTP endpoint by ID or name."
+          }
+        },
+        {
+          "name": "Update an HTTP endpoint",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/destinations/http_endpoints/:id_or_name", "host": ["{{baseUrl}}"], "path": ["destinations", "http_endpoints", ":id_or_name"], "variable": [{ "key": "id_or_name", "value": "" }] },
+            "description": "Updates an existing HTTP endpoint."
+          }
+        },
+        {
+          "name": "Delete an HTTP endpoint",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/destinations/http_endpoints/:id_or_name", "host": ["{{baseUrl}}"], "path": ["destinations", "http_endpoints", ":id_or_name"], "variable": [{ "key": "id_or_name", "value": "" }] },
+            "description": "Deletes an HTTP endpoint."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Backfills",
+      "item": [
+        {
+          "name": "List backfills for a sink",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/sinks/:sink_id_or_name/backfills", "host": ["{{baseUrl}}"], "path": ["sinks", ":sink_id_or_name", "backfills"], "variable": [{ "key": "sink_id_or_name", "value": "" }] },
+            "description": "Lists the backfills for a specific sink."
+          }
+        },
+        {
+          "name": "Create a backfill",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"tables\": [\"public.orders\"]\n}" },
+            "url": { "raw": "{{baseUrl}}/sinks/:sink_id_or_name/backfills", "host": ["{{baseUrl}}"], "path": ["sinks", ":sink_id_or_name", "backfills"], "variable": [{ "key": "sink_id_or_name", "value": "" }] },
+            "description": "Creates a new backfill for a specific sink, replaying existing Postgres rows into the destination."
+          }
+        },
+        {
+          "name": "Get a backfill",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/sinks/:sink_id_or_name/backfills/:backfill_id", "host": ["{{baseUrl}}"], "path": ["sinks", ":sink_id_or_name", "backfills", ":backfill_id"], "variable": [{ "key": "sink_id_or_name", "value": "" }, { "key": "backfill_id", "value": "" }] },
+            "description": "Retrieves a backfill by ID for a specific sink."
+          }
+        },
+        {
+          "name": "Update a backfill",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"state\": \"cancelled\"\n}" },
+            "url": { "raw": "{{baseUrl}}/sinks/:sink_id_or_name/backfills/:backfill_id", "host": ["{{baseUrl}}"], "path": ["sinks", ":sink_id_or_name", "backfills", ":backfill_id"], "variable": [{ "key": "sink_id_or_name", "value": "" }, { "key": "backfill_id", "value": "" }] },
+            "description": "Updates a backfill (for example, to pause or cancel it)."
+          }
+        },
+        {
+          "name": "Delete a backfill",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/sinks/:sink_id_or_name/backfills/:backfill_id", "host": ["{{baseUrl}}"], "path": ["sinks", ":sink_id_or_name", "backfills", ":backfill_id"], "variable": [{ "key": "sink_id_or_name", "value": "" }, { "key": "backfill_id", "value": "" }] },
+            "description": "Deletes a backfill."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Stream Pull",
+      "item": [
+        {
+          "name": "Receive messages",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/http_pull_consumers/:consumer_name/receive?batch_size=10", "host": ["{{baseUrl}}"], "path": ["http_pull_consumers", ":consumer_name", "receive"], "query": [{ "key": "batch_size", "value": "10" }], "variable": [{ "key": "consumer_name", "value": "" }] },
+            "description": "Retrieves a batch of available messages from a Sequin Stream consumer group."
+          }
+        },
+        {
+          "name": "Acknowledge messages",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"ack_ids\": [\"id1\", \"id2\"]\n}" },
+            "url": { "raw": "{{baseUrl}}/http_pull_consumers/:consumer_name/ack", "host": ["{{baseUrl}}"], "path": ["http_pull_consumers", ":consumer_name", "ack"], "variable": [{ "key": "consumer_name", "value": "" }] },
+            "description": "Acknowledges messages by ack_id so the consumer group will not deliver them again."
+          }
+        },
+        {
+          "name": "Negatively acknowledge messages",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"ack_ids\": [\"id1\", \"id2\"]\n}" },
+            "url": { "raw": "{{baseUrl}}/http_pull_consumers/:consumer_name/nack", "host": ["{{baseUrl}}"], "path": ["http_pull_consumers", ":consumer_name", "nack"], "variable": [{ "key": "consumer_name", "value": "" }] },
+            "description": "Negatively acknowledges messages by ack_id so they become available for redelivery immediately."
+          }
+        }
+      ]
+    }
+  ]
+}

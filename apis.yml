@@ -1,0 +1,130 @@
+aid: sequin-io
+url: https://raw.githubusercontent.com/api-evangelist/sequin-io/refs/heads/main/apis.yml
+name: Sequin
+kind: company
+description: Sequin is an open-source Postgres change data capture (CDC) engine that
+  streams Postgres rows and changes to streams, queues, and search indexes - Kafka,
+  SQS, SNS, Kinesis, Redis, NATS, RabbitMQ, Elasticsearch, Typesense, GCP Pub/Sub,
+  Azure Event Hubs, and HTTP/webhook endpoints - with exactly-once processing,
+  backfills, and low-latency delivery. Sequin is self-hostable and also available
+  as Sequin Cloud. Resources are configured declaratively via a sequin.yaml file or
+  programmatically through the Management API; consumers can pull changes over HTTP
+  via the Sequin Stream sink.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Change Data Capture
+- CDC
+- Postgres
+- Streaming
+- Open Source
+- Data Pipeline
+created: '2026-07-01'
+modified: '2026-07-01'
+specificationVersion: '0.19'
+apis:
+- aid: sequin-io:sequin-io-sink-consumers-api
+  name: Sequin Sink Consumers API
+  tags:
+  - Sinks
+  - Consumers
+  - CDC
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://sequinstream.com/docs/management-api/sink-consumers/list
+  baseURL: https://api.sequinstream.com/api
+  properties:
+  - url: https://sequinstream.com/docs/management-api/introduction
+    type: Documentation
+  - url: https://sequinstream.com/docs/management-api/sink-consumers/list
+    type: APIReference
+  - url: openapi/sequin-io-openapi.yml
+    type: OpenAPI
+  description: Programmatically create, list, get, update, and delete sink consumers -
+    the destinations that stream Postgres changes to Kafka, SQS, Redis, HTTP endpoints,
+    and other targets. Mirrors the declarative sink definitions in sequin.yaml.
+- aid: sequin-io:sequin-io-postgres-databases-api
+  name: Sequin Postgres Databases API
+  tags:
+  - Postgres
+  - Databases
+  - Sources
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://sequinstream.com/docs/management-api/postgres_databases/list
+  baseURL: https://api.sequinstream.com/api
+  properties:
+  - url: https://sequinstream.com/docs/management-api/postgres_databases/list
+    type: APIReference
+  - url: openapi/sequin-io-openapi.yml
+    type: OpenAPI
+  description: Manage the source Postgres database connections Sequin replicates from -
+    create, list, get, update, and delete connections, test connectivity and
+    permissions, and refresh the cached table schema.
+- aid: sequin-io:sequin-io-http-endpoints-api
+  name: Sequin HTTP Endpoints API
+  tags:
+  - HTTP Endpoints
+  - Webhooks
+  - Destinations
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://sequinstream.com/docs/management-api/http-endpoints/get
+  baseURL: https://api.sequinstream.com/api
+  properties:
+  - url: https://sequinstream.com/docs/management-api/http-endpoints/get
+    type: APIReference
+  - url: openapi/sequin-io-openapi.yml
+    type: OpenAPI
+  description: Manage reusable HTTP endpoint destinations used by webhook sinks -
+    create, list, get, update, and delete the base URLs, headers, and encrypted
+    headers that Sequin posts change events to.
+- aid: sequin-io:sequin-io-backfills-api
+  name: Sequin Backfills API
+  tags:
+  - Backfills
+  - Replay
+  - CDC
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://sequinstream.com/docs/management-api/backfills/create
+  baseURL: https://api.sequinstream.com/api
+  properties:
+  - url: https://sequinstream.com/docs/management-api/backfills/create
+    type: APIReference
+  - url: openapi/sequin-io-openapi.yml
+    type: OpenAPI
+  description: Trigger and manage backfills for a sink - replay existing Postgres rows
+    (full or partial) into a destination at any point in time. Create, list, get,
+    update, and delete backfills scoped to a given sink.
+- aid: sequin-io:sequin-io-stream-pull-api
+  name: Sequin Stream Pull API
+  tags:
+  - Consumption
+  - HTTP Pull
+  - Exactly Once
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://sequinstream.com/docs/reference/sinks/sequin-stream
+  baseURL: https://api.sequinstream.com/api
+  properties:
+  - url: https://sequinstream.com/docs/reference/sinks/sequin-stream
+    type: Documentation
+  - url: openapi/sequin-io-openapi.yml
+    type: OpenAPI
+  description: HTTP pull consumption surface for the Sequin Stream sink. Consumers
+    receive batches of change messages, then acknowledge (ack) or negatively
+    acknowledge (nack) them, giving at-least-once / exactly-once processing without
+    an external broker.
+common:
+- type: GitHubOrganization
+  url: https://github.com/sequinstream
+- type: LinkedIn
+  url: https://www.linkedin.com/company/sequin-io
+- type: Website
+  url: https://sequinstream.com
+- type: Documentation
+  url: https://sequinstream.com/docs
+- type: Plans
+  url: plans/sequin-io-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/sequin-io-rate-limits.yml
+- type: FinOps
+  url: finops/sequin-io-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

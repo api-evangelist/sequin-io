@@ -1,0 +1,70 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Sequin
+providerId: sequin-io
+created: '2026-07-01'
+modified: '2026-07-01'
+reconciled: false
+tags:
+- Change Data Capture
+- CDC
+- Postgres
+- Streaming
+- Rate Limiting
+- Quotas
+description: >-
+  Sequin does not publish fixed numeric rate limits for the Management API. On
+  self-hosted deployments, throughput is bounded only by your own hardware -
+  Sequin sustains roughly 50k operations/sec (~40 MB/s) in published
+  benchmarks. On Sequin Cloud, sustained streaming throughput is governed by
+  your plan's monthly change-record / data-volume allowance rather than by a
+  per-minute request cap. Data-plane delivery (to sinks and via the Sequin
+  Stream pull API) is controlled by per-sink configuration such as batch size,
+  max concurrency, and backpressure rather than a global limit.
+notes: >-
+  Numeric per-account or per-endpoint Management API limits are not documented
+  as of the review date. Verify Cloud allowances on the pricing page and tune
+  sink throughput via batch size and concurrency settings in sequin.yaml.
+sources:
+- https://sequinstream.com/docs/management-api/introduction
+- https://sequinstream.com/docs/performance
+- https://github.com/sequinstream/sequin
+responseCodes:
+  throttled: 429
+limits:
+- name: Management API Requests
+  scope: account
+  metric: requests
+  limit: not published
+  notes: No fixed numeric request-rate limit is documented for the Management API.
+- name: Self-Hosted Throughput
+  scope: deployment
+  metric: operations
+  limit: hardware-bound (~50k ops/sec, ~40 MB/s benchmarked)
+  notes: Constrained by your own infrastructure, not by Sequin.
+- name: Cloud Throughput Allowance
+  scope: account
+  metric: records
+  limit: per plan
+  notes: Sequin Cloud meters monthly change records / data volume per plan tier.
+- name: Sink Delivery Throughput
+  scope: sink
+  metric: messages
+  limit: configurable
+  notes: Governed per-sink by batch size, max concurrency, and backpressure settings.
+- name: Sequin Stream Pull Batch
+  scope: consumer
+  metric: messages
+  limit: configurable via batch_size
+  notes: The /receive endpoint returns up to batch_size messages per request.
+policies:
+- name: Backpressure
+  description: Sequin applies backpressure when a destination cannot keep up, rather than dropping change events.
+- name: Exactly-Once Processing
+  description: Change events are delivered with strict ordering and exactly-once processing guarantees, with ack/nack redelivery on the Sequin Stream pull API.
+- name: Backoff Strategy
+  description: Clients of the Management API and Stream pull API should implement exponential backoff with jitter and honor Retry-After on 429 responses.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

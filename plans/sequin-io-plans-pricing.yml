@@ -1,0 +1,134 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Sequin
+providerId: sequin-io
+created: '2026-07-01'
+modified: '2026-07-01'
+reconciled: false
+tags:
+- Change Data Capture
+- CDC
+- Postgres
+- Streaming
+- Open Source
+- Plans
+description: >-
+  Sequin has two consumption models. The core Sequin CDC engine is open source
+  (MIT) and free to self-host with no throughput caps beyond your own
+  infrastructure. Sequin Cloud is the managed offering: a free-forever tier for
+  getting started, a usage/throughput-based paid tier, and a custom/enterprise
+  tier for high-volume or self-managed-with-support deployments. Cloud usage is
+  metered primarily on data throughput (change records / operations streamed and
+  data volume). Exact Cloud rates are not reconciled here.
+notes: >-
+  The Management API itself has no separate fee - it configures the same
+  resources you can declare in sequin.yaml. Verify current Cloud tiers and rates
+  on the Sequin pricing page during reconciliation.
+sources:
+- https://sequinstream.com/
+- https://sequinstream.com/docs
+- https://github.com/sequinstream/sequin
+plans:
+- id: sequin-open-source
+  name: Open Source (Self-Hosted)
+  type: free
+  description: >-
+    The full Sequin CDC engine, MIT-licensed and self-hostable via Docker.
+    Includes all sink destinations, backfills, transforms, the sequin.yaml
+    declarative config, and the Management API. Throughput is bounded only by
+    your own hardware (Sequin sustains ~50k operations/sec, ~40 MB/s in
+    published benchmarks).
+  entries:
+  - label: Self-Hosted Throughput
+    name: self_hosted_throughput
+    type: usage
+    metric: records
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: free (self-hosted; you provide infrastructure)
+    userMultiplied: false
+  elements:
+  - name: All Sink Destinations
+  - name: Backfills
+  - name: Transforms and Filters
+  - name: Management API
+  - name: sequin.yaml Config
+- id: sequin-cloud-free
+  name: Sequin Cloud - Free
+  type: free
+  description: >-
+    Free-forever managed tier for evaluation and small workloads, with a
+    bounded monthly change-record allowance.
+  entries:
+  - label: Included Change Records
+    name: cloud_free_records
+    type: usage
+    metric: records
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0 up to the free-tier allowance
+    userMultiplied: false
+  elements:
+  - name: Managed Hosting
+  - name: All Sink Destinations
+- id: sequin-cloud-usage
+  name: Sequin Cloud - Usage
+  type: usage
+  description: >-
+    Managed tier billed on throughput - change records / operations streamed
+    and associated data volume - above the free allowance.
+  entries:
+  - label: Change Records Streamed
+    name: cloud_records
+    type: usage
+    metric: records
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1000000
+    price: usage-based per million records (see pricing page)
+    userMultiplied: false
+  - label: Data Volume
+    name: cloud_data_volume
+    type: usage
+    metric: bytes
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1073741824
+    price: usage-based per GB streamed (see pricing page)
+    userMultiplied: false
+  elements:
+  - name: Managed Hosting
+  - name: Higher Throughput
+  - name: Support
+- id: sequin-enterprise
+  name: Enterprise / Custom
+  type: enterprise
+  description: >-
+    Custom plan for high-volume Cloud usage, self-managed deployments with
+    vendor support, security reviews, SLAs, and negotiated terms. Contact
+    Sequin.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Custom Volume Pricing
+  - name: SLAs and Support
+  - name: Self-Managed with Support
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

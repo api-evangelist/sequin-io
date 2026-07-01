@@ -1,0 +1,318 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sequin Management API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Postgres Databases",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "List Postgres database connections.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.sequinstream.com/api/postgres_databases" },
+          "docs": "Lists all Postgres database connections in your account."
+        },
+        {
+          "info": { "name": "Create a Postgres database connection.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sequinstream.com/api/postgres_databases",
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Creates a new Postgres database connection for Sequin to replicate from."
+        },
+        {
+          "info": { "name": "Retrieve a Postgres database connection.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sequinstream.com/api/postgres_databases/:id_or_name",
+            "params": [
+              { "name": "id_or_name", "value": "", "type": "path", "description": "The ID or name of the database." }
+            ]
+          },
+          "docs": "Retrieves a Postgres database connection by ID or name."
+        },
+        {
+          "info": { "name": "Update a Postgres database connection.", "type": "http" },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.sequinstream.com/api/postgres_databases/:id_or_name",
+            "params": [
+              { "name": "id_or_name", "value": "", "type": "path", "description": "The ID or name of the database." }
+            ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Updates an existing Postgres database connection."
+        },
+        {
+          "info": { "name": "Delete a Postgres database connection.", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.sequinstream.com/api/postgres_databases/:id_or_name",
+            "params": [
+              { "name": "id_or_name", "value": "", "type": "path", "description": "The ID or name of the database." }
+            ]
+          },
+          "docs": "Deletes a Postgres database connection."
+        },
+        {
+          "info": { "name": "Test a Postgres database connection.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sequinstream.com/api/postgres_databases/:id_or_name/test-connection",
+            "params": [
+              { "name": "id_or_name", "value": "", "type": "path", "description": "The ID or name of the database." }
+            ]
+          },
+          "docs": "Tests connectivity and replication permissions for a database connection."
+        },
+        {
+          "info": { "name": "Refresh table cache.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sequinstream.com/api/postgres_databases/:id_or_name/refresh-tables",
+            "params": [
+              { "name": "id_or_name", "value": "", "type": "path", "description": "The ID or name of the database." }
+            ]
+          },
+          "docs": "Refreshes Sequin's cached view of the database's tables and columns."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Sink Consumers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "List sink consumers.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.sequinstream.com/api/sinks" },
+          "docs": "Lists all sink consumers (destinations for Postgres changes)."
+        },
+        {
+          "info": { "name": "Create a sink consumer.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sequinstream.com/api/sinks",
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Creates a new sink consumer that streams Postgres changes to a destination."
+        },
+        {
+          "info": { "name": "Get a sink consumer.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sequinstream.com/api/sinks/:id_or_name",
+            "params": [
+              { "name": "id_or_name", "value": "", "type": "path", "description": "The ID or name of the sink." }
+            ]
+          },
+          "docs": "Retrieves a sink consumer by ID or name."
+        },
+        {
+          "info": { "name": "Update a sink consumer.", "type": "http" },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.sequinstream.com/api/sinks/:id_or_name",
+            "params": [
+              { "name": "id_or_name", "value": "", "type": "path", "description": "The ID or name of the sink." }
+            ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Updates an existing sink consumer."
+        },
+        {
+          "info": { "name": "Delete a sink consumer.", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.sequinstream.com/api/sinks/:id_or_name",
+            "params": [
+              { "name": "id_or_name", "value": "", "type": "path", "description": "The ID or name of the sink." }
+            ]
+          },
+          "docs": "Deletes a sink consumer."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "HTTP Endpoints",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "List HTTP endpoints.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.sequinstream.com/api/destinations/http_endpoints" },
+          "docs": "Lists all reusable HTTP endpoint destinations used by webhook sinks."
+        },
+        {
+          "info": { "name": "Create an HTTP endpoint.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sequinstream.com/api/destinations/http_endpoints",
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Creates a reusable HTTP endpoint destination."
+        },
+        {
+          "info": { "name": "Get an HTTP endpoint.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sequinstream.com/api/destinations/http_endpoints/:id_or_name",
+            "params": [
+              { "name": "id_or_name", "value": "", "type": "path", "description": "The ID or name of the HTTP endpoint." }
+            ]
+          },
+          "docs": "Retrieves an HTTP endpoint by ID or name."
+        },
+        {
+          "info": { "name": "Update an HTTP endpoint.", "type": "http" },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.sequinstream.com/api/destinations/http_endpoints/:id_or_name",
+            "params": [
+              { "name": "id_or_name", "value": "", "type": "path", "description": "The ID or name of the HTTP endpoint." }
+            ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Updates an existing HTTP endpoint."
+        },
+        {
+          "info": { "name": "Delete an HTTP endpoint.", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.sequinstream.com/api/destinations/http_endpoints/:id_or_name",
+            "params": [
+              { "name": "id_or_name", "value": "", "type": "path", "description": "The ID or name of the HTTP endpoint." }
+            ]
+          },
+          "docs": "Deletes an HTTP endpoint."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Backfills",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "List backfills for a sink.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sequinstream.com/api/sinks/:sink_id_or_name/backfills",
+            "params": [
+              { "name": "sink_id_or_name", "value": "", "type": "path", "description": "The ID or name of the sink." }
+            ]
+          },
+          "docs": "Lists the backfills for a specific sink."
+        },
+        {
+          "info": { "name": "Create a backfill.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sequinstream.com/api/sinks/:sink_id_or_name/backfills",
+            "params": [
+              { "name": "sink_id_or_name", "value": "", "type": "path", "description": "The ID or name of the sink." }
+            ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Creates a new backfill for a specific sink, replaying existing Postgres rows into the destination."
+        },
+        {
+          "info": { "name": "Get a backfill.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sequinstream.com/api/sinks/:sink_id_or_name/backfills/:backfill_id",
+            "params": [
+              { "name": "sink_id_or_name", "value": "", "type": "path", "description": "The ID or name of the sink." },
+              { "name": "backfill_id", "value": "", "type": "path", "description": "The ID of the backfill." }
+            ]
+          },
+          "docs": "Retrieves a backfill by ID for a specific sink."
+        },
+        {
+          "info": { "name": "Update a backfill.", "type": "http" },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.sequinstream.com/api/sinks/:sink_id_or_name/backfills/:backfill_id",
+            "params": [
+              { "name": "sink_id_or_name", "value": "", "type": "path", "description": "The ID or name of the sink." },
+              { "name": "backfill_id", "value": "", "type": "path", "description": "The ID of the backfill." }
+            ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Updates a backfill (for example, to pause or cancel it)."
+        },
+        {
+          "info": { "name": "Delete a backfill.", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.sequinstream.com/api/sinks/:sink_id_or_name/backfills/:backfill_id",
+            "params": [
+              { "name": "sink_id_or_name", "value": "", "type": "path", "description": "The ID or name of the sink." },
+              { "name": "backfill_id", "value": "", "type": "path", "description": "The ID of the backfill." }
+            ]
+          },
+          "docs": "Deletes a backfill."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Stream Pull",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Receive messages.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sequinstream.com/api/http_pull_consumers/:consumer_name/receive?batch_size=10",
+            "params": [
+              { "name": "consumer_name", "value": "", "type": "path", "description": "The Sequin Stream sink / consumer group name." },
+              { "name": "batch_size", "value": "10", "type": "query", "description": "Maximum number of messages to return." }
+            ]
+          },
+          "docs": "Retrieves a batch of available messages from a Sequin Stream consumer group."
+        },
+        {
+          "info": { "name": "Acknowledge messages.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sequinstream.com/api/http_pull_consumers/:consumer_name/ack",
+            "params": [
+              { "name": "consumer_name", "value": "", "type": "path", "description": "The Sequin Stream sink / consumer group name." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"ack_ids\": [\"id1\", \"id2\"]\n}" }
+          },
+          "docs": "Acknowledges messages by ack_id so the consumer group will not deliver them again."
+        },
+        {
+          "info": { "name": "Negatively acknowledge messages.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sequinstream.com/api/http_pull_consumers/:consumer_name/nack",
+            "params": [
+              { "name": "consumer_name", "value": "", "type": "path", "description": "The Sequin Stream sink / consumer group name." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"ack_ids\": [\"id1\", \"id2\"]\n}" }
+          },
+          "docs": "Negatively acknowledges messages by ack_id so they become available for redelivery immediately."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
