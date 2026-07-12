@@ -1,0 +1,14 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/sequin-io-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: 'Bearer token found in the Sequin console under "Manage account". Passed as `Authorization:
+    Bearer YOUR_API_TOKEN`.'
+  sources:
+  - openapi/sequin-io-openapi.yml

@@ -111,6 +111,10 @@ apis:
     acknowledge (nack) them, giving at-least-once / exactly-once processing without
     an external broker.
 common:
+- type: DomainSecurity
+  url: security/sequin-io-domain-security.yml
+- type: Authentication
+  url: authentication/sequin-io-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/sequinstream
 - type: LinkedIn
@@ -125,6 +129,8 @@ common:
   url: rate-limits/sequin-io-rate-limits.yml
 - type: FinOps
   url: finops/sequin-io-finops.yml
+- url: https://blog.sequinstream.com/feed
+  type: Blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
