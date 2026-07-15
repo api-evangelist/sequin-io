@@ -111,6 +111,8 @@ apis:
     acknowledge (nack) them, giving at-least-once / exactly-once processing without
     an external broker.
 common:
+- type: AgenticAccess
+  url: agentic-access/sequin-io-agentic-access.yml
 - type: DomainSecurity
   url: security/sequin-io-domain-security.yml
 - type: Authentication
