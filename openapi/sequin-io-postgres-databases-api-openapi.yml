@@ -1,0 +1,264 @@
+openapi: 3.0.3
+info:
+  title: Sequin Management Backfills Postgres Databases API
+  description: The Sequin Management API configures and operates a Sequin Postgres change data capture (CDC) deployment programmatically. Sequin is open source and self-hostable, and also runs as Sequin Cloud. Most resources can be defined declaratively in a sequin.yaml file; this API exposes the same resources - Postgres database connections (sources), sink consumers (destinations), HTTP endpoints, and backfills - over REST. The Sequin Stream sink also exposes an HTTP pull consumption surface (receive / ack / nack). All requests require a Bearer token found in the Sequin console under "Manage account". Not all Sequin resources are available in the Management API.
+  version: '1.0'
+  contact:
+    name: Sequin
+    url: https://sequinstream.com
+  license:
+    name: MIT
+    url: https://github.com/sequinstream/sequin/blob/main/LICENSE
+servers:
+- url: https://api.sequinstream.com/api
+  description: Sequin Cloud
+- url: http://localhost:7376/api
+  description: Local development (self-hosted)
+security:
+- bearerAuth: []
+tags:
+- name: Postgres Databases
+  description: Source Postgres database connections Sequin replicates from.
+paths:
+  /postgres_databases:
+    get:
+      operationId: listPostgresDatabases
+      tags:
+      - Postgres Databases
+      summary: List Postgres database connections
+      description: Lists all Postgres database connections in your account.
+      responses:
+        '200':
+          description: A list of Postgres database connections.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PostgresDatabase'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createPostgresDatabase
+      tags:
+      - Postgres Databases
+      summary: Create a Postgres database connection
+      description: Creates a new Postgres database connection for Sequin to replicate from.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostgresDatabaseInput'
+      responses:
+        '200':
+          description: The created Postgres database connection.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostgresDatabase'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /postgres_databases/{id_or_name}:
+    parameters:
+    - $ref: '#/components/parameters/IdOrName'
+    get:
+      operationId: getPostgresDatabase
+      tags:
+      - Postgres Databases
+      summary: Retrieve a Postgres database connection
+      description: Retrieves a Postgres database connection by its ID or name.
+      responses:
+        '200':
+          description: The requested Postgres database connection.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostgresDatabase'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updatePostgresDatabase
+      tags:
+      - Postgres Databases
+      summary: Update a Postgres database connection
+      description: Updates an existing Postgres database connection.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostgresDatabaseInput'
+      responses:
+        '200':
+          description: The updated Postgres database connection.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostgresDatabase'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+    delete:
+      operationId: deletePostgresDatabase
+      tags:
+      - Postgres Databases
+      summary: Delete a Postgres database connection
+      description: Deletes a Postgres database connection.
+      responses:
+        '200':
+          description: Deletion confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /postgres_databases/{id_or_name}/test-connection:
+    parameters:
+    - $ref: '#/components/parameters/IdOrName'
+    post:
+      operationId: testPostgresDatabaseConnection
+      tags:
+      - Postgres Databases
+      summary: Test a Postgres database connection
+      description: Tests connectivity and replication permissions for a database connection.
+      responses:
+        '200':
+          description: Connection test result.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /postgres_databases/{id_or_name}/refresh-tables:
+    parameters:
+    - $ref: '#/components/parameters/IdOrName'
+    post:
+      operationId: refreshPostgresDatabaseTables
+      tags:
+      - Postgres Databases
+      summary: Refresh table cache
+      description: Refreshes Sequin's cached view of the database's tables and columns.
+      responses:
+        '200':
+          description: Refresh confirmation.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        deleted:
+          type: boolean
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+              additionalProperties: true
+    PostgresDatabase:
+      allOf:
+      - $ref: '#/components/schemas/PostgresDatabaseInput'
+      - type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+    PostgresDatabaseInput:
+      type: object
+      required:
+      - name
+      - hostname
+      - database
+      - username
+      properties:
+        name:
+          type: string
+          description: Unique name for the database connection.
+        hostname:
+          type: string
+        port:
+          type: integer
+          default: 5432
+        database:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        ssl:
+          type: boolean
+        ipv6:
+          type: boolean
+        pool_size:
+          type: integer
+  parameters:
+    IdOrName:
+      name: id_or_name
+      in: path
+      required: true
+      description: The ID (UUID) or unique name of the resource.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Bearer token found in the Sequin console under "Manage account". Passed as `Authorization: Bearer YOUR_API_TOKEN`.'

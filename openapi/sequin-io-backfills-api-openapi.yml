@@ -1,0 +1,223 @@
+openapi: 3.0.3
+info:
+  title: Sequin Management Backfills API
+  description: The Sequin Management API configures and operates a Sequin Postgres change data capture (CDC) deployment programmatically. Sequin is open source and self-hostable, and also runs as Sequin Cloud. Most resources can be defined declaratively in a sequin.yaml file; this API exposes the same resources - Postgres database connections (sources), sink consumers (destinations), HTTP endpoints, and backfills - over REST. The Sequin Stream sink also exposes an HTTP pull consumption surface (receive / ack / nack). All requests require a Bearer token found in the Sequin console under "Manage account". Not all Sequin resources are available in the Management API.
+  version: '1.0'
+  contact:
+    name: Sequin
+    url: https://sequinstream.com
+  license:
+    name: MIT
+    url: https://github.com/sequinstream/sequin/blob/main/LICENSE
+servers:
+- url: https://api.sequinstream.com/api
+  description: Sequin Cloud
+- url: http://localhost:7376/api
+  description: Local development (self-hosted)
+security:
+- bearerAuth: []
+tags:
+- name: Backfills
+  description: Replay existing Postgres rows into a sink.
+paths:
+  /sinks/{sink_id_or_name}/backfills:
+    parameters:
+    - $ref: '#/components/parameters/SinkIdOrName'
+    get:
+      operationId: listBackfills
+      tags:
+      - Backfills
+      summary: List backfills
+      description: Lists the backfills for a specific sink.
+      responses:
+        '200':
+          description: A list of backfills.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Backfill'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: createBackfill
+      tags:
+      - Backfills
+      summary: Create a backfill
+      description: Creates a new backfill for a specific sink, replaying existing Postgres rows into the destination. Supports full backfills or partial backfills scoped to specific tables.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BackfillInput'
+      responses:
+        '200':
+          description: The created backfill.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Backfill'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /sinks/{sink_id_or_name}/backfills/{backfill_id}:
+    parameters:
+    - $ref: '#/components/parameters/SinkIdOrName'
+    - name: backfill_id
+      in: path
+      required: true
+      description: The ID of the backfill.
+      schema:
+        type: string
+    get:
+      operationId: getBackfill
+      tags:
+      - Backfills
+      summary: Get a backfill
+      description: Retrieves a backfill by ID for a specific sink.
+      responses:
+        '200':
+          description: The requested backfill.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Backfill'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateBackfill
+      tags:
+      - Backfills
+      summary: Update a backfill
+      description: Updates a backfill (for example, to pause or cancel it).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BackfillInput'
+      responses:
+        '200':
+          description: The updated backfill.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Backfill'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteBackfill
+      tags:
+      - Backfills
+      summary: Delete a backfill
+      description: Deletes a backfill.
+      responses:
+        '200':
+          description: Deletion confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    Backfill:
+      allOf:
+      - $ref: '#/components/schemas/BackfillInput'
+      - type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          sink:
+            type: string
+          rows_ingested_count:
+            type: integer
+          inserted_at:
+            type: string
+            format: date-time
+    BackfillInput:
+      type: object
+      properties:
+        state:
+          type: string
+          enum:
+          - active
+          - paused
+          - cancelled
+        tables:
+          type: array
+          description: Optional list of tables to scope a partial backfill.
+          items:
+            type: string
+        sort_column:
+          type: string
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        deleted:
+          type: boolean
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+              additionalProperties: true
+  parameters:
+    SinkIdOrName:
+      name: sink_id_or_name
+      in: path
+      required: true
+      description: The ID (UUID) or unique name of the sink.
+      schema:
+        type: string
+  responses:
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Bearer token found in the Sequin console under "Manage account". Passed as `Authorization: Bearer YOUR_API_TOKEN`.'

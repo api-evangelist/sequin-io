@@ -1,0 +1,179 @@
+openapi: 3.0.3
+info:
+  title: Sequin Management Backfills Stream Pull API
+  description: The Sequin Management API configures and operates a Sequin Postgres change data capture (CDC) deployment programmatically. Sequin is open source and self-hostable, and also runs as Sequin Cloud. Most resources can be defined declaratively in a sequin.yaml file; this API exposes the same resources - Postgres database connections (sources), sink consumers (destinations), HTTP endpoints, and backfills - over REST. The Sequin Stream sink also exposes an HTTP pull consumption surface (receive / ack / nack). All requests require a Bearer token found in the Sequin console under "Manage account". Not all Sequin resources are available in the Management API.
+  version: '1.0'
+  contact:
+    name: Sequin
+    url: https://sequinstream.com
+  license:
+    name: MIT
+    url: https://github.com/sequinstream/sequin/blob/main/LICENSE
+servers:
+- url: https://api.sequinstream.com/api
+  description: Sequin Cloud
+- url: http://localhost:7376/api
+  description: Local development (self-hosted)
+security:
+- bearerAuth: []
+tags:
+- name: Stream Pull
+  description: HTTP pull consumption for the Sequin Stream sink.
+paths:
+  /http_pull_consumers/{consumer_name}/receive:
+    parameters:
+    - name: consumer_name
+      in: path
+      required: true
+      description: The name of the Sequin Stream sink / consumer group.
+      schema:
+        type: string
+    get:
+      operationId: receiveMessages
+      tags:
+      - Stream Pull
+      summary: Receive messages
+      description: Retrieves a batch of available messages from a Sequin Stream consumer group. Each message carries an ack_id used to later acknowledge or negatively acknowledge it.
+      parameters:
+      - name: batch_size
+        in: query
+        required: false
+        description: Maximum number of messages to return.
+        schema:
+          type: integer
+          default: 1
+      responses:
+        '200':
+          description: A batch of messages.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/StreamMessage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /http_pull_consumers/{consumer_name}/ack:
+    parameters:
+    - name: consumer_name
+      in: path
+      required: true
+      description: The name of the Sequin Stream sink / consumer group.
+      schema:
+        type: string
+    post:
+      operationId: ackMessages
+      tags:
+      - Stream Pull
+      summary: Acknowledge messages
+      description: Acknowledges messages by ack_id so the consumer group will not deliver them again.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AckRequest'
+      responses:
+        '200':
+          description: Acknowledgement result.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /http_pull_consumers/{consumer_name}/nack:
+    parameters:
+    - name: consumer_name
+      in: path
+      required: true
+      description: The name of the Sequin Stream sink / consumer group.
+      schema:
+        type: string
+    post:
+      operationId: nackMessages
+      tags:
+      - Stream Pull
+      summary: Negatively acknowledge messages
+      description: Negatively acknowledges messages by ack_id so they become available for redelivery immediately.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AckRequest'
+      responses:
+        '200':
+          description: Nack result.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    StreamMessage:
+      type: object
+      properties:
+        ack_id:
+          type: string
+        action:
+          type: string
+          enum:
+          - insert
+          - update
+          - delete
+          - read
+        record:
+          type: object
+          additionalProperties: true
+        changes:
+          type: object
+          additionalProperties: true
+        metadata:
+          type: object
+          additionalProperties: true
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+              additionalProperties: true
+    AckRequest:
+      type: object
+      required:
+      - ack_ids
+      properties:
+        ack_ids:
+          type: array
+          items:
+            type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Bearer token found in the Sequin console under "Manage account". Passed as `Authorization: Bearer YOUR_API_TOKEN`.'

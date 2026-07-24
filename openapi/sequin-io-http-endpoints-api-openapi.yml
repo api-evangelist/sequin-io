@@ -1,0 +1,209 @@
+openapi: 3.0.3
+info:
+  title: Sequin Management Backfills HTTP Endpoints API
+  description: The Sequin Management API configures and operates a Sequin Postgres change data capture (CDC) deployment programmatically. Sequin is open source and self-hostable, and also runs as Sequin Cloud. Most resources can be defined declaratively in a sequin.yaml file; this API exposes the same resources - Postgres database connections (sources), sink consumers (destinations), HTTP endpoints, and backfills - over REST. The Sequin Stream sink also exposes an HTTP pull consumption surface (receive / ack / nack). All requests require a Bearer token found in the Sequin console under "Manage account". Not all Sequin resources are available in the Management API.
+  version: '1.0'
+  contact:
+    name: Sequin
+    url: https://sequinstream.com
+  license:
+    name: MIT
+    url: https://github.com/sequinstream/sequin/blob/main/LICENSE
+servers:
+- url: https://api.sequinstream.com/api
+  description: Sequin Cloud
+- url: http://localhost:7376/api
+  description: Local development (self-hosted)
+security:
+- bearerAuth: []
+tags:
+- name: HTTP Endpoints
+  description: Reusable HTTP endpoint destinations used by webhook sinks.
+paths:
+  /destinations/http_endpoints:
+    get:
+      operationId: listHttpEndpoints
+      tags:
+      - HTTP Endpoints
+      summary: List HTTP endpoints
+      description: Lists all reusable HTTP endpoint destinations used by webhook sinks.
+      responses:
+        '200':
+          description: A list of HTTP endpoints.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/HttpEndpoint'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createHttpEndpoint
+      tags:
+      - HTTP Endpoints
+      summary: Create an HTTP endpoint
+      description: Creates a reusable HTTP endpoint destination.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HttpEndpointInput'
+      responses:
+        '200':
+          description: The created HTTP endpoint.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpEndpoint'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /destinations/http_endpoints/{id_or_name}:
+    parameters:
+    - $ref: '#/components/parameters/IdOrName'
+    get:
+      operationId: getHttpEndpoint
+      tags:
+      - HTTP Endpoints
+      summary: Get an HTTP endpoint
+      description: Retrieves an HTTP endpoint by its ID or name.
+      responses:
+        '200':
+          description: The requested HTTP endpoint.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpEndpoint'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateHttpEndpoint
+      tags:
+      - HTTP Endpoints
+      summary: Update an HTTP endpoint
+      description: Updates an existing HTTP endpoint.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HttpEndpointInput'
+      responses:
+        '200':
+          description: The updated HTTP endpoint.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpEndpoint'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+    delete:
+      operationId: deleteHttpEndpoint
+      tags:
+      - HTTP Endpoints
+      summary: Delete an HTTP endpoint
+      description: Deletes an HTTP endpoint.
+      responses:
+        '200':
+          description: Deletion confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        deleted:
+          type: boolean
+    HttpEndpointInput:
+      type: object
+      required:
+      - name
+      - url
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+          format: uri
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+        encrypted_headers:
+          type: object
+          additionalProperties:
+            type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+              additionalProperties: true
+    HttpEndpoint:
+      allOf:
+      - $ref: '#/components/schemas/HttpEndpointInput'
+      - type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+  parameters:
+    IdOrName:
+      name: id_or_name
+      in: path
+      required: true
+      description: The ID (UUID) or unique name of the resource.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Bearer token found in the Sequin console under "Manage account". Passed as `Authorization: Bearer YOUR_API_TOKEN`.'
