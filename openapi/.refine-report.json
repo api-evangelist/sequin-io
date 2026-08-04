@@ -1,0 +1,22 @@
+{
+  "provider": "sequin-io",
+  "sources": [
+    "sequin-io-backfills-api-openapi.yml",
+    "sequin-io-http-endpoints-api-openapi.yml",
+    "sequin-io-postgres-databases-api-openapi.yml",
+    "sequin-io-sink-consumers-api-openapi.yml",
+    "sequin-io-stream-pull-api-openapi.yml"
+  ],
+  "outputs": [
+    "sequin-io-backfills-api-openapi.yml",
+    "sequin-io-http-endpoints-api-openapi.yml",
+    "sequin-io-postgres-databases-api-openapi.yml",
+    "sequin-io-sink-consumers-api-openapi.yml",
+    "sequin-io-stream-pull-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
