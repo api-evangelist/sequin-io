@@ -1,0 +1,111 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sequin Management Backfills HTTP Endpoints API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "HTTP Endpoints",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List HTTP endpoints",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sequinstream.com/api/destinations/http_endpoints"
+          },
+          "docs": "Lists all reusable HTTP endpoint destinations used by webhook sinks."
+        },
+        {
+          "info": {
+            "name": "Create an HTTP endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sequinstream.com/api/destinations/http_endpoints",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a reusable HTTP endpoint destination."
+        },
+        {
+          "info": {
+            "name": "Get an HTTP endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sequinstream.com/api/destinations/http_endpoints/:id_or_name",
+            "params": [
+              {
+                "name": "id_or_name",
+                "value": "",
+                "type": "path",
+                "description": "The ID (UUID) or unique name of the resource."
+              }
+            ]
+          },
+          "docs": "Retrieves an HTTP endpoint by its ID or name."
+        },
+        {
+          "info": {
+            "name": "Update an HTTP endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.sequinstream.com/api/destinations/http_endpoints/:id_or_name",
+            "params": [
+              {
+                "name": "id_or_name",
+                "value": "",
+                "type": "path",
+                "description": "The ID (UUID) or unique name of the resource."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing HTTP endpoint."
+        },
+        {
+          "info": {
+            "name": "Delete an HTTP endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.sequinstream.com/api/destinations/http_endpoints/:id_or_name",
+            "params": [
+              {
+                "name": "id_or_name",
+                "value": "",
+                "type": "path",
+                "description": "The ID (UUID) or unique name of the resource."
+              }
+            ]
+          },
+          "docs": "Deletes an HTTP endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

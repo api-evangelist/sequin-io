@@ -1,0 +1,95 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sequin Management Backfills Stream Pull API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Stream Pull",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Receive messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sequinstream.com/api/http_pull_consumers/:consumer_name/receive",
+            "params": [
+              {
+                "name": "consumer_name",
+                "value": "",
+                "type": "path",
+                "description": "The name of the Sequin Stream sink / consumer group."
+              },
+              {
+                "name": "batch_size",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of messages to return."
+              }
+            ]
+          },
+          "docs": "Retrieves a batch of available messages from a Sequin Stream consumer group. Each message carries an ack_id used to later acknowledge or negatively acknowledge it."
+        },
+        {
+          "info": {
+            "name": "Acknowledge messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sequinstream.com/api/http_pull_consumers/:consumer_name/ack",
+            "params": [
+              {
+                "name": "consumer_name",
+                "value": "",
+                "type": "path",
+                "description": "The name of the Sequin Stream sink / consumer group."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Acknowledges messages by ack_id so the consumer group will not deliver them again."
+        },
+        {
+          "info": {
+            "name": "Negatively acknowledge messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sequinstream.com/api/http_pull_consumers/:consumer_name/nack",
+            "params": [
+              {
+                "name": "consumer_name",
+                "value": "",
+                "type": "path",
+                "description": "The name of the Sequin Stream sink / consumer group."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Negatively acknowledges messages by ack_id so they become available for redelivery immediately."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

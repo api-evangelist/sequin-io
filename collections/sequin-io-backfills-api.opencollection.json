@@ -1,0 +1,145 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sequin Management Backfills API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Backfills",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List backfills",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sequinstream.com/api/sinks/:sink_id_or_name/backfills",
+            "params": [
+              {
+                "name": "sink_id_or_name",
+                "value": "",
+                "type": "path",
+                "description": "The ID (UUID) or unique name of the sink."
+              }
+            ]
+          },
+          "docs": "Lists the backfills for a specific sink."
+        },
+        {
+          "info": {
+            "name": "Create a backfill",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sequinstream.com/api/sinks/:sink_id_or_name/backfills",
+            "params": [
+              {
+                "name": "sink_id_or_name",
+                "value": "",
+                "type": "path",
+                "description": "The ID (UUID) or unique name of the sink."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new backfill for a specific sink, replaying existing Postgres rows into the destination. Supports full backfills or partial backfills scoped to specific tables."
+        },
+        {
+          "info": {
+            "name": "Get a backfill",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sequinstream.com/api/sinks/:sink_id_or_name/backfills/:backfill_id",
+            "params": [
+              {
+                "name": "sink_id_or_name",
+                "value": "",
+                "type": "path",
+                "description": "The ID (UUID) or unique name of the sink."
+              },
+              {
+                "name": "backfill_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the backfill."
+              }
+            ]
+          },
+          "docs": "Retrieves a backfill by ID for a specific sink."
+        },
+        {
+          "info": {
+            "name": "Update a backfill",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.sequinstream.com/api/sinks/:sink_id_or_name/backfills/:backfill_id",
+            "params": [
+              {
+                "name": "sink_id_or_name",
+                "value": "",
+                "type": "path",
+                "description": "The ID (UUID) or unique name of the sink."
+              },
+              {
+                "name": "backfill_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the backfill."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a backfill (for example, to pause or cancel it)."
+        },
+        {
+          "info": {
+            "name": "Delete a backfill",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.sequinstream.com/api/sinks/:sink_id_or_name/backfills/:backfill_id",
+            "params": [
+              {
+                "name": "sink_id_or_name",
+                "value": "",
+                "type": "path",
+                "description": "The ID (UUID) or unique name of the sink."
+              },
+              {
+                "name": "backfill_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the backfill."
+              }
+            ]
+          },
+          "docs": "Deletes a backfill."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

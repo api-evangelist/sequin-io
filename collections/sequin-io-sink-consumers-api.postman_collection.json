@@ -1,0 +1,1060 @@
+{
+  "item": [
+    {
+      "id": "02ad131a-dca5-4b4c-9166-23734b34a584",
+      "name": "Sink Consumers",
+      "description": {
+        "content": "Destinations that stream Postgres changes to external systems.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "93142e72-571e-404a-8af2-a89e00d9a017",
+          "name": "List sink consumers",
+          "request": {
+            "name": "List sink consumers",
+            "description": {
+              "content": "Lists all sink consumers. A sink consumer is a destination for Postgres changes (Kafka, SQS, SNS, Kinesis, Redis, NATS, RabbitMQ, Elasticsearch, Typesense, GCP Pub/Sub, Azure Event Hubs, webhooks, Sequin Stream, and more), including its source, filters, transforms, and health.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sinks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b4cbc502-d1c1-4c81-a527-e0199661b121",
+              "name": "A list of sink consumers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sinks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"name\": \"string\",\n      \"database\": \"string\",\n      \"destination\": {\n        \"type\": \"elasticsearch\",\n        \"key_0\": 3540,\n        \"key_1\": false\n      },\n      \"status\": \"disabled\",\n      \"table\": \"string\",\n      \"filters\": [\n        {\n          \"key_0\": 3881.2317905496875,\n          \"key_1\": 4615.959807253213\n        },\n        {\n          \"key_0\": true,\n          \"key_1\": true,\n          \"key_2\": \"string\"\n        }\n      ],\n      \"transform\": \"string\",\n      \"id\": \"ee80462a-1b9d-74ca-8c57-c3b6f861902e\",\n      \"health\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": 9203,\n        \"key_3\": \"string\",\n        \"key_4\": 9849\n      }\n    },\n    {\n      \"name\": \"string\",\n      \"database\": \"string\",\n      \"destination\": {\n        \"type\": \"kafka\",\n        \"key_0\": 6663,\n        \"key_1\": 965\n      },\n      \"status\": \"paused\",\n      \"table\": \"string\",\n      \"filters\": [\n        {\n          \"key_0\": 1558.8121374427587\n        },\n        {\n          \"key_0\": true\n        }\n      ],\n      \"transform\": \"string\",\n      \"id\": \"689570b6-6522-ac8b-1e28-f446c2ce0876\",\n      \"health\": {\n        \"key_0\": \"string\",\n        \"key_1\": 6606.223976383231\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f5c6ff33-765d-4625-9c25-5e9325998a80",
+              "name": "Missing or invalid Bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sinks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"details\": {\n      \"key_0\": \"string\",\n      \"key_1\": false\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a2f6ace0-dc7f-4ca5-8bb1-4956e68c15b9",
+          "name": "Create a sink consumer",
+          "request": {
+            "name": "Create a sink consumer",
+            "description": {
+              "content": "Creates a new sink consumer that streams Postgres changes to a destination.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sinks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"database\": \"<string>\",\n  \"destination\": {\n    \"type\": \"<string>\"\n  },\n  \"status\": \"<string>\",\n  \"table\": \"<string>\",\n  \"filters\": [\n    {\n      \"key_0\": \"string\",\n      \"key_1\": true\n    },\n    {\n      \"key_0\": \"string\",\n      \"key_1\": 6706.224489828111,\n      \"key_2\": true\n    }\n  ],\n  \"transform\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1a9ef4b8-0e74-4a36-877f-153ba9230c79",
+              "name": "The created sink consumer.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sinks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"database\": \"<string>\",\n  \"destination\": {\n    \"type\": \"<string>\",\n    \"key_0\": \"string\"\n  },\n  \"status\": \"<string>\",\n  \"table\": \"<string>\",\n  \"filters\": [\n    {\n      \"key_0\": 5790,\n      \"key_1\": \"string\",\n      \"key_2\": 7309,\n      \"key_3\": 5891\n    },\n    {\n      \"key_0\": 1368,\n      \"key_1\": 5786\n    }\n  ],\n  \"transform\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"<string>\",\n  \"database\": \"<string>\",\n  \"destination\": {\n    \"type\": \"<string>\"\n  },\n  \"status\": \"<string>\",\n  \"table\": \"<string>\",\n  \"filters\": [\n    {\n      \"key_0\": 2436\n    },\n    {\n      \"key_0\": 937,\n      \"key_1\": false\n    }\n  ],\n  \"transform\": \"<string>\",\n  \"id\": \"6acdd182-c8ce-ff55-9e4c-5dd81c1461f8\",\n  \"health\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e33fc9e2-fdd9-4191-bfe5-994202b4bdc0",
+              "name": "Missing or invalid Bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sinks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"database\": \"<string>\",\n  \"destination\": {\n    \"type\": \"<string>\",\n    \"key_0\": \"string\"\n  },\n  \"status\": \"<string>\",\n  \"table\": \"<string>\",\n  \"filters\": [\n    {\n      \"key_0\": 5790,\n      \"key_1\": \"string\",\n      \"key_2\": 7309,\n      \"key_3\": 5891\n    },\n    {\n      \"key_0\": 1368,\n      \"key_1\": 5786\n    }\n  ],\n  \"transform\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"details\": {\n      \"key_0\": \"string\",\n      \"key_1\": false\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f589e8bf-7dff-4579-b804-d9a7027550d5",
+              "name": "The request payload failed validation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sinks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"database\": \"<string>\",\n  \"destination\": {\n    \"type\": \"<string>\",\n    \"key_0\": \"string\"\n  },\n  \"status\": \"<string>\",\n  \"table\": \"<string>\",\n  \"filters\": [\n    {\n      \"key_0\": 5790,\n      \"key_1\": \"string\",\n      \"key_2\": 7309,\n      \"key_3\": 5891\n    },\n    {\n      \"key_0\": 1368,\n      \"key_1\": 5786\n    }\n  ],\n  \"transform\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"details\": {\n      \"key_0\": \"string\",\n      \"key_1\": false\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d239a15c-7fc9-4d9f-9444-5aeb36cf0197",
+          "name": "Get a sink consumer",
+          "request": {
+            "name": "Get a sink consumer",
+            "description": {
+              "content": "Retrieves a sink consumer by its ID or name.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sinks",
+                ":id_or_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id_or_name",
+                  "description": "(Required) The ID (UUID) or unique name of the resource."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fd495014-8d0d-410c-b2e3-f1713afba42a",
+              "name": "The requested sink consumer.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sinks",
+                    ":id_or_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id_or_name",
+                      "description": "(Required) The ID (UUID) or unique name of the resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"<string>\",\n  \"database\": \"<string>\",\n  \"destination\": {\n    \"type\": \"<string>\"\n  },\n  \"status\": \"<string>\",\n  \"table\": \"<string>\",\n  \"filters\": [\n    {\n      \"key_0\": 2436\n    },\n    {\n      \"key_0\": 937,\n      \"key_1\": false\n    }\n  ],\n  \"transform\": \"<string>\",\n  \"id\": \"6acdd182-c8ce-ff55-9e4c-5dd81c1461f8\",\n  \"health\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6325ab77-aeb4-4145-ad9f-a3ed72ed4b73",
+              "name": "Missing or invalid Bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sinks",
+                    ":id_or_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id_or_name",
+                      "description": "(Required) The ID (UUID) or unique name of the resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"details\": {\n      \"key_0\": \"string\",\n      \"key_1\": false\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3298bdda-eae1-4694-8bd0-f4d0c052ea66",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sinks",
+                    ":id_or_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id_or_name",
+                      "description": "(Required) The ID (UUID) or unique name of the resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"details\": {\n      \"key_0\": \"string\",\n      \"key_1\": false\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bfae94fe-6eda-424b-9ba3-0b9da58b91a5",
+          "name": "Update a sink consumer",
+          "request": {
+            "name": "Update a sink consumer",
+            "description": {
+              "content": "Updates an existing sink consumer.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sinks",
+                ":id_or_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id_or_name",
+                  "description": "(Required) The ID (UUID) or unique name of the resource."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"database\": \"<string>\",\n  \"destination\": {\n    \"type\": \"<string>\"\n  },\n  \"status\": \"<string>\",\n  \"table\": \"<string>\",\n  \"filters\": [\n    {\n      \"key_0\": \"string\",\n      \"key_1\": true\n    },\n    {\n      \"key_0\": \"string\",\n      \"key_1\": 6706.224489828111,\n      \"key_2\": true\n    }\n  ],\n  \"transform\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f4ee3ab3-2aa6-4c9b-b39d-33345dadccf2",
+              "name": "The updated sink consumer.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sinks",
+                    ":id_or_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id_or_name",
+                      "description": "(Required) The ID (UUID) or unique name of the resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"database\": \"<string>\",\n  \"destination\": {\n    \"type\": \"<string>\",\n    \"key_0\": \"string\"\n  },\n  \"status\": \"<string>\",\n  \"table\": \"<string>\",\n  \"filters\": [\n    {\n      \"key_0\": 5790,\n      \"key_1\": \"string\",\n      \"key_2\": 7309,\n      \"key_3\": 5891\n    },\n    {\n      \"key_0\": 1368,\n      \"key_1\": 5786\n    }\n  ],\n  \"transform\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"<string>\",\n  \"database\": \"<string>\",\n  \"destination\": {\n    \"type\": \"<string>\"\n  },\n  \"status\": \"<string>\",\n  \"table\": \"<string>\",\n  \"filters\": [\n    {\n      \"key_0\": 2436\n    },\n    {\n      \"key_0\": 937,\n      \"key_1\": false\n    }\n  ],\n  \"transform\": \"<string>\",\n  \"id\": \"6acdd182-c8ce-ff55-9e4c-5dd81c1461f8\",\n  \"health\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d4cd8f47-04ee-45c7-a4b0-1bbdaa4f1f46",
+              "name": "Missing or invalid Bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sinks",
+                    ":id_or_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id_or_name",
+                      "description": "(Required) The ID (UUID) or unique name of the resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"database\": \"<string>\",\n  \"destination\": {\n    \"type\": \"<string>\",\n    \"key_0\": \"string\"\n  },\n  \"status\": \"<string>\",\n  \"table\": \"<string>\",\n  \"filters\": [\n    {\n      \"key_0\": 5790,\n      \"key_1\": \"string\",\n      \"key_2\": 7309,\n      \"key_3\": 5891\n    },\n    {\n      \"key_0\": 1368,\n      \"key_1\": 5786\n    }\n  ],\n  \"transform\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"details\": {\n      \"key_0\": \"string\",\n      \"key_1\": false\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9e6ca6d2-aa77-4e02-8c76-6254994249a4",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sinks",
+                    ":id_or_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id_or_name",
+                      "description": "(Required) The ID (UUID) or unique name of the resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"database\": \"<string>\",\n  \"destination\": {\n    \"type\": \"<string>\",\n    \"key_0\": \"string\"\n  },\n  \"status\": \"<string>\",\n  \"table\": \"<string>\",\n  \"filters\": [\n    {\n      \"key_0\": 5790,\n      \"key_1\": \"string\",\n      \"key_2\": 7309,\n      \"key_3\": 5891\n    },\n    {\n      \"key_0\": 1368,\n      \"key_1\": 5786\n    }\n  ],\n  \"transform\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"details\": {\n      \"key_0\": \"string\",\n      \"key_1\": false\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a432cef8-c283-48d4-9658-f819bc3c081a",
+              "name": "The request payload failed validation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sinks",
+                    ":id_or_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id_or_name",
+                      "description": "(Required) The ID (UUID) or unique name of the resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"database\": \"<string>\",\n  \"destination\": {\n    \"type\": \"<string>\",\n    \"key_0\": \"string\"\n  },\n  \"status\": \"<string>\",\n  \"table\": \"<string>\",\n  \"filters\": [\n    {\n      \"key_0\": 5790,\n      \"key_1\": \"string\",\n      \"key_2\": 7309,\n      \"key_3\": 5891\n    },\n    {\n      \"key_0\": 1368,\n      \"key_1\": 5786\n    }\n  ],\n  \"transform\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"details\": {\n      \"key_0\": \"string\",\n      \"key_1\": false\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c6261518-a983-44ec-98a7-da25bdfc5496",
+          "name": "Delete a sink consumer",
+          "request": {
+            "name": "Delete a sink consumer",
+            "description": {
+              "content": "Deletes a sink consumer.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sinks",
+                ":id_or_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id_or_name",
+                  "description": "(Required) The ID (UUID) or unique name of the resource."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8dcc4612-1795-4512-b666-dbe2b9e610dd",
+              "name": "Deletion confirmation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sinks",
+                    ":id_or_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id_or_name",
+                      "description": "(Required) The ID (UUID) or unique name of the resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"deleted\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5d7185d4-218c-40cc-bbbe-8088deec0ece",
+              "name": "Missing or invalid Bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sinks",
+                    ":id_or_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id_or_name",
+                      "description": "(Required) The ID (UUID) or unique name of the resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"details\": {\n      \"key_0\": \"string\",\n      \"key_1\": false\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2842de41-d113-4bf8-b9ed-d80ccba0e31d",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sinks",
+                    ":id_or_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id_or_name",
+                      "description": "(Required) The ID (UUID) or unique name of the resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"details\": {\n      \"key_0\": \"string\",\n      \"key_1\": false\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.sequinstream.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3d16c76f-5615-4e47-83c5-f5820b586e23",
+    "name": "Sequin Management Backfills Sink Consumers API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Sequin Management API configures and operates a Sequin Postgres change data capture (CDC) deployment programmatically. Sequin is open source and self-hostable, and also runs as Sequin Cloud. Most resources can be defined declaratively in a sequin.yaml file; this API exposes the same resources - Postgres database connections (sources), sink consumers (destinations), HTTP endpoints, and backfills - over REST. The Sequin Stream sink also exposes an HTTP pull consumption surface (receive / ack / nack). All requests require a Bearer token found in the Sequin console under \"Manage account\". Not all Sequin resources are available in the Management API.\n\nContact Support:\n Name: Sequin",
+      "type": "text/plain"
+    }
+  }
+}

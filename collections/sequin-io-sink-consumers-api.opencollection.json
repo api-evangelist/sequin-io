@@ -1,0 +1,111 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sequin Management Backfills Sink Consumers API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sink Consumers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List sink consumers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sequinstream.com/api/sinks"
+          },
+          "docs": "Lists all sink consumers. A sink consumer is a destination for Postgres changes (Kafka, SQS, SNS, Kinesis, Redis, NATS, RabbitMQ, Elasticsearch, Typesense, GCP Pub/Sub, Azure Event Hubs, webhooks, Sequin Stream, and more), including its source, filters, transforms, and health."
+        },
+        {
+          "info": {
+            "name": "Create a sink consumer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sequinstream.com/api/sinks",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new sink consumer that streams Postgres changes to a destination."
+        },
+        {
+          "info": {
+            "name": "Get a sink consumer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sequinstream.com/api/sinks/:id_or_name",
+            "params": [
+              {
+                "name": "id_or_name",
+                "value": "",
+                "type": "path",
+                "description": "The ID (UUID) or unique name of the resource."
+              }
+            ]
+          },
+          "docs": "Retrieves a sink consumer by its ID or name."
+        },
+        {
+          "info": {
+            "name": "Update a sink consumer",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.sequinstream.com/api/sinks/:id_or_name",
+            "params": [
+              {
+                "name": "id_or_name",
+                "value": "",
+                "type": "path",
+                "description": "The ID (UUID) or unique name of the resource."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing sink consumer."
+        },
+        {
+          "info": {
+            "name": "Delete a sink consumer",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.sequinstream.com/api/sinks/:id_or_name",
+            "params": [
+              {
+                "name": "id_or_name",
+                "value": "",
+                "type": "path",
+                "description": "The ID (UUID) or unique name of the resource."
+              }
+            ]
+          },
+          "docs": "Deletes a sink consumer."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
