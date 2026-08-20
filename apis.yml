@@ -29,6 +29,13 @@ tags:
 - CDC
 - Postgres
 - Streaming
+- Open-Source
+- Data Pipeline
+tags_raw:
+- Change Data Capture
+- CDC
+- Postgres
+- Streaming
 - Open Source
 - Data Pipeline
 created: '2026-07-01'
@@ -41,6 +48,8 @@ apis:
   humanURL: https://sequinstream.com/docs/management-api/sink-consumers/list
   baseURL: https://api.sequinstream.com/api
   tags:
+  - backfills
+  tags_raw:
   - Backfills
   properties:
   - type: OpenAPI
