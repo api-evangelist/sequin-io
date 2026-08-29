@@ -10,6 +10,18 @@ description: Sequin is an open-source Postgres change data capture (CDC) engine 
   as Sequin Cloud. Resources are configured declaratively via a sequin.yaml file or
   programmatically through the Management API; consumers can pull changes over HTTP
   via the Sequin Stream sink.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
