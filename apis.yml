@@ -60,7 +60,7 @@ apis:
   humanURL: https://sequinstream.com/docs/management-api/sink-consumers/list
   baseURL: https://api.sequinstream.com/api
   tags:
-  - backfills
+  - Backfills
   tags_raw:
   - Backfills
   properties:
