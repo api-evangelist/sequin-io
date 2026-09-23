@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Sequin Management Backfills Postgres Databases API
-  description: The Sequin Management API configures and operates a Sequin Postgres change data capture (CDC) deployment programmatically. Sequin is open source and self-hostable, and also runs as Sequin Cloud. Most resources can be defined declaratively in a sequin.yaml file; this API exposes the same resources - Postgres database connections (sources), sink consumers (destinations), HTTP endpoints, and backfills - over REST. The Sequin Stream sink also exposes an HTTP pull consumption surface (receive / ack / nack). All requests require a Bearer token found in the Sequin console under "Manage account". Not all Sequin resources are available in the Management API.
+  title: Sequin Management Postgres Databases API
+  description: The Sequin Management API configures and operates a Sequin Postgres change data capture (CDC) deployment programmatically.
   version: '1.0'
   contact:
     name: Sequin
@@ -174,12 +174,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Missing or invalid Bearer token.
       content:
@@ -192,6 +186,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    IdOrName:
+      name: id_or_name
+      in: path
+      required: true
+      description: The ID (UUID) or unique name of the resource.
+      schema:
+        type: string
   schemas:
     DeleteResponse:
       type: object
@@ -200,27 +208,6 @@ components:
           type: string
         deleted:
           type: boolean
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-            message:
-              type: string
-            details:
-              type: object
-              additionalProperties: true
-    PostgresDatabase:
-      allOf:
-      - $ref: '#/components/schemas/PostgresDatabaseInput'
-      - type: object
-        properties:
-          id:
-            type: string
-            format: uuid
     PostgresDatabaseInput:
       type: object
       required:
@@ -249,14 +236,27 @@ components:
           type: boolean
         pool_size:
           type: integer
-  parameters:
-    IdOrName:
-      name: id_or_name
-      in: path
-      required: true
-      description: The ID (UUID) or unique name of the resource.
-      schema:
-        type: string
+    PostgresDatabase:
+      allOf:
+      - $ref: '#/components/schemas/PostgresDatabaseInput'
+      - type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+              additionalProperties: true
   securitySchemes:
     bearerAuth:
       type: http

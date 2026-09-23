@@ -1,11 +1,7 @@
 {
   "provider": "sequin-io",
   "sources": [
-    "sequin-io-backfills-api-openapi.yml",
-    "sequin-io-http-endpoints-api-openapi.yml",
-    "sequin-io-postgres-databases-api-openapi.yml",
-    "sequin-io-sink-consumers-api-openapi.yml",
-    "sequin-io-stream-pull-api-openapi.yml"
+    "_original/sequin-io-openapi.yml"
   ],
   "outputs": [
     "sequin-io-backfills-api-openapi.yml",
@@ -17,6 +13,16 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "sequin-io-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "sequin-io-backfills-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sequin-io-http-endpoints-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sequin-io-postgres-databases-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sequin-io-sink-consumers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sequin-io-stream-pull-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

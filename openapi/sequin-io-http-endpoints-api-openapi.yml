@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Sequin Management Backfills HTTP Endpoints API
-  description: The Sequin Management API configures and operates a Sequin Postgres change data capture (CDC) deployment programmatically. Sequin is open source and self-hostable, and also runs as Sequin Cloud. Most resources can be defined declaratively in a sequin.yaml file; this API exposes the same resources - Postgres database connections (sources), sink consumers (destinations), HTTP endpoints, and backfills - over REST. The Sequin Stream sink also exposes an HTTP pull consumption surface (receive / ack / nack). All requests require a Bearer token found in the Sequin console under "Manage account". Not all Sequin resources are available in the Management API.
+  title: Sequin Management HTTP Endpoints API
+  description: The Sequin Management API configures and operates a Sequin Postgres change data capture (CDC) deployment programmatically.
   version: '1.0'
   contact:
     name: Sequin
@@ -127,33 +127,15 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    DeleteResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        deleted:
-          type: boolean
+    HttpEndpoint:
+      allOf:
+      - $ref: '#/components/schemas/HttpEndpointInput'
+      - type: object
+        properties:
+          id:
+            type: string
+            format: uuid
     HttpEndpointInput:
       type: object
       required:
@@ -173,6 +155,13 @@ components:
           type: object
           additionalProperties:
             type: string
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        deleted:
+          type: boolean
     Error:
       type: object
       properties:
@@ -186,14 +175,25 @@ components:
             details:
               type: object
               additionalProperties: true
-    HttpEndpoint:
-      allOf:
-      - $ref: '#/components/schemas/HttpEndpointInput'
-      - type: object
-        properties:
-          id:
-            type: string
-            format: uuid
+  responses:
+    Unauthorized:
+      description: Missing or invalid Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     IdOrName:
       name: id_or_name

@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Sequin Management Backfills Stream Pull API
-  description: The Sequin Management API configures and operates a Sequin Postgres change data capture (CDC) deployment programmatically. Sequin is open source and self-hostable, and also runs as Sequin Cloud. Most resources can be defined declaratively in a sequin.yaml file; this API exposes the same resources - Postgres database connections (sources), sink consumers (destinations), HTTP endpoints, and backfills - over REST. The Sequin Stream sink also exposes an HTTP pull consumption surface (receive / ack / nack). All requests require a Bearer token found in the Sequin console under "Manage account". Not all Sequin resources are available in the Management API.
+  title: Sequin Management Stream Pull API
+  description: The Sequin Management API configures and operates a Sequin Postgres change data capture (CDC) deployment programmatically.
   version: '1.0'
   contact:
     name: Sequin
@@ -122,6 +122,28 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    AckRequest:
+      type: object
+      required:
+      - ack_ids
+      properties:
+        ack_ids:
+          type: array
+          items:
+            type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+              additionalProperties: true
     StreamMessage:
       type: object
       properties:
@@ -143,28 +165,6 @@ components:
         metadata:
           type: object
           additionalProperties: true
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-            message:
-              type: string
-            details:
-              type: object
-              additionalProperties: true
-    AckRequest:
-      type: object
-      required:
-      - ack_ids
-      properties:
-        ack_ids:
-          type: array
-          items:
-            type: string
   responses:
     Unauthorized:
       description: Missing or invalid Bearer token.
