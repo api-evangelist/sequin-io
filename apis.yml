@@ -39,17 +39,17 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/sequin-io.png
 tags:
 - Change Data Capture
-- Postgres
+- PostgreSQL
 - Streaming
-- Open-Source
+- Open Source
 - Data Pipeline
 tags_raw:
 - Change Data Capture
-- CDC
 - Postgres
 - Streaming
 - Open Source
 - Data Pipeline
+- Open-Source
 created: '2026-07-01'
 modified: '2026-07-01'
 specificationVersion: '0.23'
