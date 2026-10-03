@@ -173,7 +173,41 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        deleted:
+          type: boolean
+    PostgresDatabase:
+      allOf:
+      - $ref: '#/components/schemas/PostgresDatabaseInput'
+      - type: object
+        properties:
+          id:
+            type: string
+            format: uuid
     Error:
       type: object
       properties:
@@ -187,13 +221,6 @@ components:
             details:
               type: object
               additionalProperties: true
-    DeleteResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        deleted:
-          type: boolean
     PostgresDatabaseInput:
       type: object
       required:
@@ -222,33 +249,6 @@ components:
           type: boolean
         pool_size:
           type: integer
-    PostgresDatabase:
-      allOf:
-      - $ref: '#/components/schemas/PostgresDatabaseInput'
-      - type: object
-        properties:
-          id:
-            type: string
-            format: uuid
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
     IdOrName:
       name: id_or_name

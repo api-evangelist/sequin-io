@@ -127,54 +127,6 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-            message:
-              type: string
-            details:
-              type: object
-              additionalProperties: true
-    DeleteResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        deleted:
-          type: boolean
-    HttpEndpoint:
-      allOf:
-      - $ref: '#/components/schemas/HttpEndpointInput'
-      - type: object
-        properties:
-          id:
-            type: string
-            format: uuid
-    HttpEndpointInput:
-      type: object
-      required:
-      - name
-      - url
-      properties:
-        name:
-          type: string
-        url:
-          type: string
-          format: uri
-        headers:
-          type: object
-          additionalProperties:
-            type: string
-        encrypted_headers:
-          type: object
-          additionalProperties:
-            type: string
   responses:
     NotFound:
       description: The requested resource was not found.
@@ -194,6 +146,54 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  schemas:
+    HttpEndpointInput:
+      type: object
+      required:
+      - name
+      - url
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+          format: uri
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+        encrypted_headers:
+          type: object
+          additionalProperties:
+            type: string
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        deleted:
+          type: boolean
+    HttpEndpoint:
+      allOf:
+      - $ref: '#/components/schemas/HttpEndpointInput'
+      - type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+              additionalProperties: true
   parameters:
     IdOrName:
       name: id_or_name

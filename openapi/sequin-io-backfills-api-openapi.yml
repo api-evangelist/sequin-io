@@ -137,7 +137,56 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    SinkIdOrName:
+      name: sink_id_or_name
+      in: path
+      required: true
+      description: The ID (UUID) or unique name of the sink.
+      schema:
+        type: string
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        deleted:
+          type: boolean
+    Backfill:
+      allOf:
+      - $ref: '#/components/schemas/BackfillInput'
+      - type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          sink:
+            type: string
+          rows_ingested_count:
+            type: integer
+          inserted_at:
+            type: string
+            format: date-time
     Error:
       type: object
       properties:
@@ -167,55 +216,6 @@ components:
             type: string
         sort_column:
           type: string
-    Backfill:
-      allOf:
-      - $ref: '#/components/schemas/BackfillInput'
-      - type: object
-        properties:
-          id:
-            type: string
-            format: uuid
-          sink:
-            type: string
-          rows_ingested_count:
-            type: integer
-          inserted_at:
-            type: string
-            format: date-time
-    DeleteResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        deleted:
-          type: boolean
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    SinkIdOrName:
-      name: sink_id_or_name
-      in: path
-      required: true
-      description: The ID (UUID) or unique name of the sink.
-      schema:
-        type: string
   securitySchemes:
     bearerAuth:
       type: http
