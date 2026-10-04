@@ -122,6 +122,15 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    AckRequest:
+      type: object
+      required:
+      - ack_ids
+      properties:
+        ack_ids:
+          type: array
+          items:
+            type: string
     Error:
       type: object
       properties:
@@ -156,15 +165,6 @@ components:
         metadata:
           type: object
           additionalProperties: true
-    AckRequest:
-      type: object
-      required:
-      - ack_ids
-      properties:
-        ack_ids:
-          type: array
-          items:
-            type: string
   responses:
     Unauthorized:
       description: Missing or invalid Bearer token.
