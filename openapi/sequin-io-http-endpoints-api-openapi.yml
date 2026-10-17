@@ -127,26 +127,34 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    IdOrName:
+      name: id_or_name
+      in: path
+      required: true
+      description: The ID (UUID) or unique name of the resource.
+      schema:
+        type: string
   schemas:
-    HttpEndpointInput:
-      type: object
-      required:
-      - name
-      - url
-      properties:
-        name:
-          type: string
-        url:
-          type: string
-          format: uri
-        headers:
-          type: object
-          additionalProperties:
-            type: string
-        encrypted_headers:
-          type: object
-          additionalProperties:
-            type: string
     DeleteResponse:
       type: object
       properties:
@@ -175,33 +183,25 @@ components:
             details:
               type: object
               additionalProperties: true
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    IdOrName:
-      name: id_or_name
-      in: path
-      required: true
-      description: The ID (UUID) or unique name of the resource.
-      schema:
-        type: string
+    HttpEndpointInput:
+      type: object
+      required:
+      - name
+      - url
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+          format: uri
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+        encrypted_headers:
+          type: object
+          additionalProperties:
+            type: string
   securitySchemes:
     bearerAuth:
       type: http

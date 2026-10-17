@@ -137,6 +137,33 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    SinkIdOrName:
+      name: sink_id_or_name
+      in: path
+      required: true
+      description: The ID (UUID) or unique name of the sink.
+      schema:
+        type: string
   schemas:
     BackfillInput:
       type: object
@@ -154,6 +181,13 @@ components:
             type: string
         sort_column:
           type: string
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        deleted:
+          type: boolean
     Backfill:
       allOf:
       - $ref: '#/components/schemas/BackfillInput'
@@ -169,13 +203,6 @@ components:
           inserted_at:
             type: string
             format: date-time
-    DeleteResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        deleted:
-          type: boolean
     Error:
       type: object
       properties:
@@ -189,33 +216,6 @@ components:
             details:
               type: object
               additionalProperties: true
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    SinkIdOrName:
-      name: sink_id_or_name
-      in: path
-      required: true
-      description: The ID (UUID) or unique name of the sink.
-      schema:
-        type: string
   securitySchemes:
     bearerAuth:
       type: http
